@@ -12,7 +12,7 @@ const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4'
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
+const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
 let tokenClient;
 let gapiInited = false;
@@ -90,7 +90,8 @@ function handleAuthClick() {
         document.getElementById('Date').disabled = false;
         document.getElementById('startTime').disabled = false;
         document.getElementById('endTime').disabled = false;
-        //await listMajors();
+        await listOrganizations();
+        await listServices();
     };
 
     if (gapi.client.getToken() === null) {
@@ -121,33 +122,97 @@ if (token !== null) {
     document.getElementById('Date').disabled = true;
     document.getElementById('startTime').disabled = true;
     document.getElementById('endTime').disabled = true;
+    
+    document.getElementById('name').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('organization').value = '';
+    document.getElementById('reserveItem').value = '';
+    document.getElementById('Date').value = '';
+    document.getElementById('startTime').value = '';
+    document.getElementById('endTime').value = '';
 }
 }
 
-/**
- * Print the names and majors of students in a sample spreadsheet:
- * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
- */
-async function listMajors() {
+async function listOrganizations() {
 let response;
 try {
-    // Fetch first 10 files
     response = await gapi.client.sheets.spreadsheets.values.get({
-    spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
-    range: 'Class Data!A2:E',
+    spreadsheetId: '1yNVhLxJUSHp7tI05NrjId1sOQrI1hoDIIwozPXXJ-xA',
+    range: 'Organizations!A2:B',
     });
 } catch (err) {
-    document.getElementById('content').innerText = err.message;
     return;
 }
 const range = response.result;
 if (!range || !range.values || range.values.length == 0) {
-    document.getElementById('content').innerText = 'No values found.';
     return;
 }
-// Flatten to string to display
-const output = range.values.reduce(
-    (str, row) => `${str}${row[0]}, ${row[4]}\n`,
-    'Name, Major:\n');
-document.getElementById('content').innerText = output;
+
+var values = range.values;
+var select = document.getElementById('organization');
+
+for (var x = 0; x < values.length; x++)
+{
+    var option = document.createElement("option");
+    option.text = values[x][0];
+    option.value = values[x][1];
+    select.add(option);
+}
+}
+
+async function listServices() {
+    let response;
+    try {
+        response = await gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: '1yNVhLxJUSHp7tI05NrjId1sOQrI1hoDIIwozPXXJ-xA',
+        range: 'Services!A2:A',
+        });
+    } catch (err) {
+        return;
+    }
+    const range = response.result;
+    if (!range || !range.values || range.values.length == 0) {
+        return;
+    }
+    
+    var values = range.values;
+    var select = document.getElementById('reserveItem');
+    
+    for (var x = 0; x < values.length; x++)
+    {
+        var option = document.createElement("option");
+        option.text = values[x][0];
+        option.value = values[x][0];
+        select.add(option);
+    }
+}
+
+function reserveAction() {
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var organization = document.getElementById('organization').value;
+    var reserveItem = document.getElementById('reserveItem').value;
+    var date = document.getElementById('Date').value;
+    var startTime = document.getElementById('startTime').value;
+    var endTime = document.getElementById('endTime').value;
+    var values = [[name, email, organization, reserveItem, date, startTime, endTime]];
+
+    try {
+        gapi.client.sheets.spreadsheets.values.append({
+            spreadsheetId: '1yNVhLxJUSHp7tI05NrjId1sOQrI1hoDIIwozPXXJ-xA',
+            range: 'Reservations!A2',
+            valueInputOption: "USER_ENTERED",
+            resource: {
+            values: values
+            }
+        }).then((response) => {
+            const result = response.result;
+            console.log(`${result.updatedCells} cells updated.`);
+            if (callback) callback(response);
+        });
+    }
+    catch (err) {
+        document.getElementById('content').innerText = err.message;
+        return;
+    }  
 }
