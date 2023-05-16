@@ -7,7 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link href="style.css" rel="stylesheet">
 </head>
+  <body>
     <?php 
+        require_once("connection.php");
         if(isset($_POST['submit_button'])){
             $last_name = $_POST['lastName'];
             $first_name = $_POST['firstName'];
@@ -19,16 +21,45 @@
             $start_time = $_POST['startTime'];
             $end_time = $_POST['end_time'];
             $purpose = $_POST['purpose'];
+            $overlap = false;
 
-            
+            $sql = "SELECT * FROM reservations WHERE 
+            (start_time BETWEEN '$start_time' AND '$end_time') OR (end_time BETWEEN '$start_time' AND '$end_time')";
+            $result = mysql_query($sql, $con);
+
+            while($row = mysql_fetch_array($result))
+            {
+                $existingDate = $row['date_reserved'];
+                $existingServices = $row['services'];
+
+                if ($existingDate == $date && $existingServices == $service)
+                {
+                    $overlap = true;
+                    break;
+                }
+            }
+
+            if ($overlap){
+                echo '<script type="text/javascript">';
+                echo ' alert("Your time overlap with an existing reservation.")';
+                echo '</script>';
+                header("Refresh:0");
+                die();
+            }
+            else{
+                $sql = "INSERT INTO reservations (last_name, first_name, email, contact, organization, services, date_reserved, start_time, end_time, purpose)
+                VALUES
+                ('$last_name', '$first_name', '$email', '$contact', '$organization', '$service', '$date', '$start_time', '$end_time', '$purpose')";
+                
+                if (!mysql_query($sql, $con))
+                {
+                    die('Error: ' . mysql_error());
+                }
+            }
         }
     ?>
-  <body>
-    <?php 
-        require_once("connection.php");
-    ?>
     <div class="container-md shadow min-vh-100 py-2">
-        <form class="needs-validation" novalidate action="" method="POST">
+        <form class="needs-validation" novalidate action="index.php" method="POST">
             <h1>SAO Reservation Form</h1>
             <h6>Please fill out the form</h6>
             <hr>
