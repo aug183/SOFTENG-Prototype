@@ -7,6 +7,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link href="style.css" rel="stylesheet">
 </head>
+    <?php 
+        if(isset($_POST['submit_button'])){
+            $last_name = $_POST['lastName'];
+            $first_name = $_POST['firstName'];
+            $email = $_POST['email'];
+            $contact = $_POST['contact'];
+            $organization = $_POST['Organization'];
+            $service = $_POST['reserveItem'];
+            $date = $_POST['date'];
+            $start_time = $_POST['startTime'];
+            $end_time = $_POST['end_time'];
+            $purpose = $_POST['purpose'];
+
+            
+        }
+    ?>
   <body>
     <?php 
         require_once("connection.php");
@@ -85,7 +101,7 @@
             <div class="row justify-content-center mb-3">
                 <div class="col-md-4 mb-3">
                     <div class="form-floating">
-                        <input id="Date" class="form-control" type="date" required/>
+                        <input name="date" id="Date" class="form-control" type="date" required/>
                         <span id="DateSelected"></span>
                         <label for="date">Date</label>
                         <div class="invalid-feedback">Please select date</div>
@@ -94,7 +110,7 @@
                 <div class="col-md-4 mb-3">
                     <div class="cs-form">
                         <div class="form-floating">
-                            <input type="time" class="form-control" value="" id="startTime" required/>
+                            <input name="startTime" type="time" class="form-control" value="" id="startTime" required/>
                             <label for="startTime">Start Time</label>
                             <div class="invalid-feedback">Please select start time.</div>
                         </div>
@@ -103,7 +119,7 @@
                 <div class="col-md-4 mb-3">
                     <div class="cs-form">
                         <div class="form-floating">
-                            <input type="time" class="form-control" value="" id="endTime" required/>
+                            <input name="end_time" type="time" class="form-control" value="" id="endTime" required/>
                             <label for="endTime">End Time</label>
                             <div class="invalid-feedback">Please select end time.</div>
                         </div>
@@ -119,7 +135,7 @@
                 <div class="col-4">
                 </div>
                 <div class="col-4 text-center">
-                    <button type="submit" class="btn btn-primary mb-3" id="submit_button">Submit</button>
+                    <button type="submit" class="btn btn-primary mb-3" id="submit_button" name="submit_button">Submit</button>
                 </div>
                 <div class="col-4">
                 </div>
