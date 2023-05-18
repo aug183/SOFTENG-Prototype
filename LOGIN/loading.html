@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+      <style>
+body { margin: 0; padding: 0; }
+
+.page {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.usage {
+  position: absolute;
+  top: 40px;
+  line-height: 50px;
+  z-index: 1000;
+  color: white;
+  font-size: 20px;
+  width: 100%;
+  text-align: center;
+  font-family: "Arial Black", Gadget, sans-serif;
+  pointer-events: none;
+}
+
+h1{
+  color: white;
+  font-family: arial;
+  font-weight: bold;
+  font-size: 3em;
+}
+      </style>
+
+    </head>
+    <body>
+
+        <div class="page" style="background-color:#38a8cc">
+            <h1>Page 1</h1>
+          </div>
+          <div class="page" style="background-color:#004444">
+            <h1>Page 2</h1>
+          </div>
+          <div class="page" style="background-color:#884444">
+            <h1>Page 3</h1>
+          </div>
+          <div class="page" style="background-color:#555588">
+            <h1>Page 4</h1>
+          </div>
+          <div class="page" style="background-color:#a84466">
+            <h1>Page 5</h1>
+          </div>
+          
+          <p class="usage">Click anywhere on screen</p>
+          
+    </body>
+    
+    <script src="loading.js"></script>
+
+</html>
