@@ -14,3 +14,7 @@
     }, false);
   });
 })();
+
+$(document).ready(function () {
+  $('#table').DataTable();
+});

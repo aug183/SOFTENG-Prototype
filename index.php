@@ -22,38 +22,46 @@
             $end_time = $_POST['end_time'];
             $purpose = $_POST['purpose'];
             $overlap = false;
-
-            $sql = "SELECT * FROM reservations WHERE 
-            (start_time BETWEEN '$start_time' AND '$end_time') OR (end_time BETWEEN '$start_time' AND '$end_time')";
-            $result = mysql_query($sql, $con);
-
-            while($row = mysql_fetch_array($result))
+            if ($start_time > $end_time)
             {
-                $existingDate = $row['date_reserved'];
-                $existingServices = $row['services'];
-
-                if ($existingDate == $date && $existingServices == $service)
-                {
-                    $overlap = true;
-                    break;
-                }
-            }
-
-            if ($overlap){
                 echo '<script type="text/javascript">';
-                echo ' alert("Your time overlap with an existing reservation.")';
+                echo ' alert("Your start time is later than your end time.")';
                 echo '</script>';
-                header("Refresh:0");
-                die();
             }
-            else{
-                $sql = "INSERT INTO reservations (last_name, first_name, email, contact, organization, services, date_reserved, start_time, end_time, purpose)
-                VALUES
-                ('$last_name', '$first_name', '$email', '$contact', '$organization', '$service', '$date', '$start_time', '$end_time', '$purpose')";
-                
-                if (!mysql_query($sql, $con))
+            else
+            {
+                $sql = "SELECT * FROM reservations WHERE 
+                (start_time BETWEEN '$start_time' AND '$end_time') OR (end_time BETWEEN '$start_time' AND '$end_time')";
+                $result = mysql_query($sql, $con);
+
+                while($row = mysql_fetch_array($result))
                 {
-                    die('Error: ' . mysql_error());
+                    $existingDate = $row['date_reserved'];
+                    $existingServices = $row['services'];
+
+                    if ($existingDate == $date && $existingServices == $service)
+                    {
+                        $overlap = true;
+                        break;
+                    }
+                }
+
+                if ($overlap){
+                    echo '<script type="text/javascript">';
+                    echo ' alert("Your time overlap with an existing reservation.")';
+                    echo '</script>';
+                    header("Refresh:0");
+                    die();
+                }
+                else{
+                    $sql = "INSERT INTO reservations (last_name, first_name, email, contact, organization, services, date_reserved, start_time, end_time, purpose)
+                    VALUES
+                    ('$last_name', '$first_name', '$email', '$contact', '$organization', '$service', '$date', '$start_time', '$end_time', '$purpose')";
+                    
+                    if (!mysql_query($sql, $con))
+                    {
+                        die('Error: ' . mysql_error());
+                    }
                 }
             }
         }
