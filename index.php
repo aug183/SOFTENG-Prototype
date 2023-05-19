@@ -170,6 +170,14 @@
                 <label for="purpose">Purpose</label>
                 <div class="invalid-feedback">Required</div>
             </div>
+            <div class="form-check mb-3" style="font-size: 12px; font-style: oblique;">
+                <input class="form-check-input" type="checkbox" value="" id="consent" required>
+                <label class="form-check-label" for="consent">
+                I understand that by accomplishing this form, I am allowing the College SAO to collect, use,
+                and process my personal data submitted for legitimate purposes.
+                </label>
+                <div class="invalid-feedback">You must agree before submitting.</div>
+            </div>
             <div class="row">
                 <div class="col-4">
                 </div>
