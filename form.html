@@ -8,22 +8,25 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Acme&amp;display=swap">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/Dark-footer-with-social-media-icons.css">
+    <link rel="stylesheet" href="assets/css/Footer-with-social-media-icons.css">
     <link rel="stylesheet" href="assets/css/Hero-Carousel-images.css">
     <link rel="stylesheet" href="assets/css/Navbar-Right-Links-icons.css">
+    <link rel="stylesheet" href="assets/css/style1.css">
 </head>
 
 <body>
     <nav class="navbar navbar-light navbar-expand-md py-3" style="border-bottom-color: rgb(14,15,16);box-shadow: 0px 1px 20px rgb(183,183,183);">
-        <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><span>De La Salle Lipa</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="index.html" style="color: rgb(19,161,7);font-size: 36px;font-weight: bold;"><span style="color: rgb(19, 161, 7);">SAO Reservation System</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-2">
                 <ul class="navbar-nav ms-auto nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="form.html" style="background: rgb(232,232,232);">Room Reservation</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Status Tracking</a></li>
-                </ul>
+                    <li class="nav-item"><a class="nav-link active" href="form.html" style="background: rgb(197,237,196);">Room Reservation</a></li>
+                    <li class="nav-item"><a class="nav-link" href="reftrack.html">Status Tracking</a></li>
+                </ul><a href="AdminLogin.html" style="color: rgb(19,161,7);border-width: 1px;border-style: solid;border-radius: 3px;padding: 13px;width: 105px;text-align: center;"><i class="fas fa-sign-in-alt" style="margin-right: 7px;"></i>Admin</a>
             </div>
         </div>
     </nav>
-    <section class="py-4 py-xl-5">
+    <section class="py-4 py-xl-5" style="background: url(&quot;assets/img/smooth-white-stucco-wall%20(1).jpg&quot;);background-size: contain;">
         <div class="container">
             <form>
                 <section class="py-4 py-xl-5">
@@ -75,7 +78,13 @@
                                                         <div class="mb-3">
                                                             <div class="mb-4"></div><label class="form-label" style="color: rgb(8,72,26);">Purpose of Reservation</label><textarea class="form-control" id="message-1" name="message" rows="6"></textarea>
                                                         </div>
-                                                        <div class="mb-5"></div><button class="btn btn-primary d-block" type="submit" style="float: right;background: rgb(27,177,24);border-color: rgba(255,255,255,0);">Submit</button><button class="btn btn-primary d-block" type="submit" style="background: rgb(165,171,180);border-color: rgb(255, 255, 255);border-top-color: rgb(255,;border-right-color: 255,;border-bottom-color: 255);border-left-color: 255,;">Cancel</button>
+                                                        <div class="mb-5">
+                                                            <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-2"><label class="form-check-label" for="formCheck-2"><em>I understand that by accomplishing this form, I am allowing SAO to collect, use, and process my personal data submitted for legitimate purposes.</em></label></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col"><button class="btn btn-primary d-block" type="submit" style="background: rgb(165,171,180);border-color: rgb(255, 255, 255);border-top-color: rgb(255,;border-right-color: 255,;border-bottom-color: 255);border-left-color: 255,;width: 125px;">Cancel</button></div>
+                                                            <div class="col"><button class="btn btn-primary d-block" type="submit" style="float: right;background: rgb(27,177,24);border-color: rgba(255,255,255,0);width: 125px;">Submit</button></div>
+                                                        </div>
                                                     </form>
                                                 </div>
                                             </div>
@@ -90,6 +99,7 @@
         </div>
     </section>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
 </body>
 
 </html>
