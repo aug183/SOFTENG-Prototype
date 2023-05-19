@@ -7,10 +7,6 @@ a {
   margin: 20px;
 }
 
-.btn {
-  width: 40% !important;
-}
-
 a:active {
   color: var(--bs-gray);
 }
