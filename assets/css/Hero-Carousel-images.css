@@ -1,0 +1,25 @@
+.fit-cover {
+  object-fit: cover;
+}
+
+a {
+  text-decoration: none;
+  margin: 20px;
+}
+
+.btn {
+  width: 40% !important;
+}
+
+a:active {
+  color: var(--bs-gray);
+}
+
+.btn-sel:hover {
+  background-color: greenyellow;
+}
+
+.dropdown-togglehover {
+  background-color: #007bff;
+}
+
