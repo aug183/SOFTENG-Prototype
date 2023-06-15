@@ -2,20 +2,3 @@
   object-fit: cover;
 }
 
-a {
-  text-decoration: none;
-  margin: 20px;
-}
-
-a:active {
-  color: var(--bs-gray);
-}
-
-.btn-sel:hover {
-  background-color: greenyellow;
-}
-
-.dropdown-togglehover {
-  background-color: #007bff;
-}
-
