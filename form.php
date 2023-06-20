@@ -16,96 +16,23 @@
         require_once("connection.php");
         $last_nameErr = $first_nameErr = $emailErr = $contactErr = $organizationErr = $service = $dateErr = $startTimeErr = $endTimeErr = $purposeErr = "";
         if(isset($_POST['submit_button'])){
-            if (empty($_POST['lastName'])) {
-                $last_nameErr = "is-invalid";
-                header('Location: form.php');
-                exit();
-            } else {
-                $last_nameErr = "is-valid";
-                $last_name = clean($_POST['lastName']);
-            }
-            if (empty($_POST['firstName'])) {
-                $first_nameErr = "is-invalid";
-                header('Location: form.php');
-                exit();
-            } else {
-                $first_nameErr = "is-valid";
-                $first_name = clean($_POST['firstName']);
-            }
-            if (empty($_POST['email'])) {
-                $emailErr = "is-invalid";
-                header('Location: form.php');
-                exit();
-            } else {
-                $emailErr = "is-valid";
-                $email = clean($_POST['email']);
-            }
-            if (empty($_POST['contact'])) {
-                $contactErr = "is-invalid";
-                header('Location: form.php');
-                exit();
-            } else {
-                $contactErr = "is-valid";
-                $contact = clean($_POST['contact']);
-            }
-            if (empty($_POST['Organization'])) {
-                $organizationErr = "is-invalid";
-                header('Location: form.php');
-                exit();
-            } else {
-                $organizationErr = "is-valid";
-                $organization = clean($_POST['Organization']);
-            }
-            if (empty($_POST['reserveItem'])) {
-                $service = "is-invalid";
-                header('Location: form.php');
-                exit();
-            } else {
-                $service = "is-valid";
-                $service = clean($_POST['reserveItem']);
-            }
-            if (empty($_POST['date'])) {
-                $dateErr = "is-invalid";
-                header('Location: form.php');
-                exit();
-            } else {
-                $dateErr = "is-valid";
-                $date = clean($_POST['date']);
-            }
-            if (empty($_POST['startTime'])) {
-                $startTimeErr = "is-invalid";
-                header('Location: form.php');
-                exit();
-            } else {
-                $startTimeErr = "is-valid";
-                $start_time = clean($_POST['startTime']);
-            }
-            if (empty($_POST['end_time'])) {
-                $endTimeErr = "is-invalid";
-                header('Location: form.php');
-                exit();
-            } else {
-                $endTimeErr = "is-valid";
-                $end_time = clean($_POST['end_time']);
-            }
-            if (empty($_POST['purpose'])) {
-                $purposeErr = "is-invalid";
-                header('Location: form.php');
-                exit();
-            } else {
-                $purposeErr = "is-valid";
-                $purpose = clean($_POST['purpose']);
-            }
+            $last_name = clean($_POST['lastName']);
+            $first_name = clean($_POST['firstName']);
+            $email = clean($_POST['email']);
+            $contact = clean($_POST['contact']);
+            $organization = clean($_POST['Organization']);
+            $service = clean($_POST['reserveItem']);
+            $date = clean($_POST['date']);
+            $start_time = clean($_POST['startTime']);
+            $end_time = clean($_POST['end_time']);
+            $purpose = clean($_POST['purpose']);
             $overlap = false;
-            $email_pattern = "/^[a-z_.]+@dlsl.edu.ph$/";
+
             if ($start_time > $end_time)
             {
                 echo '<script type="text/javascript">';
                 echo ' alert("Your start time is later than your end time.")';
                 echo '</script>';
-            }
-            else if (!preg_match($email_pattern, $email)) {
-                $emailErr = "is-invalid";
             }
             else
             {
@@ -156,8 +83,8 @@
             <div class="collapse navbar-collapse" id="navcol-1" style="font-size: 15px;margin-right: 37px;">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="#" style="background: #aeeaad;margin-right: 44px;border-radius: 11px;">Room Reservation</a></li>
-                    <li class="nav-item"><a class="nav-link" href="reftrack.html" style="margin-right: 44px;">Status Tracking</a></li>
-                    <li class="nav-item"><a class="nav-link" href="AdminLogin.html" style="color: rgba(17,89,10,0.9);border: 1px solid rgb(17,89,10);border-radius: 6px;"><i class="fas fa-sign-in-alt"></i>&nbsp; Admin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="reftrack.php" style="margin-right: 44px;">Status Tracking</a></li>
+                    <li class="nav-item"><a class="nav-link" href="AdminLogin.php" style="color: rgba(17,89,10,0.9);border: 1px solid rgb(17,89,10);border-radius: 6px;"><i class="fas fa-sign-in-alt"></i>&nbsp; Admin</a></li>
                 </ul>
             </div>
         </div>
@@ -179,7 +106,7 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label" style="color: #08481a;">First Name</label>
-                                                    <input class="form-control <?php echo $first_nameErr?>" type="text" id="firstName" name="firstName">
+                                                    <input class="form-control <?php echo $first_nameErr?>" type="text" id="firstName" name="firstName" required>
                                                     <div class="invalid-feedback">This a required field.</div>
                                                 </div>
                                                 <div class="mb-3">

@@ -18,7 +18,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="form.php" style="margin-right: 44px;">Room Reservation</a></li>
                     <li class="nav-item"><a class="nav-link active" href="#" style="margin-right: 44px;background: #aeeaad;border-radius: 11px;">Status Tracking</a></li>
-                    <li class="nav-item"><a class="nav-link" href="AdminLogin.html" style="color: rgba(17,89,10,0.9);border: 1px solid rgb(17,89,10);border-radius: 6px;"><i class="fas fa-sign-in-alt"></i>&nbsp; Admin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="AdminLogin.php" style="color: rgba(17,89,10,0.9);border: 1px solid rgb(17,89,10);border-radius: 6px;"><i class="fas fa-sign-in-alt"></i>&nbsp; Admin</a></li>
                 </ul>
             </div>
         </div>
