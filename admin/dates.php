@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-    <link href="../style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Acme&amp;display=swap">
     <link rel="stylesheet" href="../assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
@@ -22,58 +21,43 @@
 
 <body>
     <?php
-    require_once("../connection.php");
 
     if (isset($_POST['submit_button'])) {
-        $date = $_POST['date'];
-        if (isset($_POST['Working_Area'])) {
-            $Working = $_POST["Working_Area"];
-        } else $Working = "AVAILABLE";
-
-        if (isset($_POST['Meeting_Room_1'])) {
-            $Meeting1 = $_POST["Meeting_Room_1"];
-        } else $Meeting1 = "AVAILABLE";
-
-        if (isset($_POST['Meeting_Room_2'])) {
-            $Meeting2 = $_POST["Meeting_Room_2"];
-        } else $Meeting2 = "AVAILABLE";
-
-        if (isset($_POST['Open_Space'])) {
-            $OpenSpace = $_POST["Open_Space"];
-        } else $OpenSpace = "AVAILABLE";
-
-        if (isset($_POST['North_Wing'])) {
-            $NorthWing = $_POST["North_Wing"];
-        } else $NorthWing = "AVAILABLE";
-
-        if (isset($_POST['South_Wing'])) {
-            $SouthWing = $_POST["South_Wing"];
-        } else $SouthWing = "AVAILABLE";
-
-        if (isset($_POST['Zoom_Account'])) {
-            $Zoom = $_POST["Zoom_Account"];
-        } else $Zoom = "AVAILABLE";
-
-        $reason = $_POST['reason'];
-
-
-        $sql = "INSERT INTO `dates` (`dates`, `Working area`, `Meeting Room 1`, `Meeting Room 2`, `Open Space`, `North Wing`, `South Wing`, `Zoom Account`, reason)
-                VALUES
-                ('$date', '$Working', '$Meeting1', '$Meeting2', '$OpenSpace', '$NorthWing', '$SouthWing', '$Zoom', '$reason')
-                ";
-
-        if (!mysql_query($sql, $con)) {
-            die('Error: ' . mysql_error());
+        //mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        $inputFields = $_POST['input-field'];
+        $mysqli = new mysqli('localhost', 'root', '', 'reservation');
+        if ($mysqli->connect_errno) {
+            echo "Failed to connect to MySQL: " . $mysqli->connect_error;
+            exit();
         }
+        $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'dates'";
+        $result = mysqli_query($mysqli, $sql);
+        $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $tableName = "dates";
+        $columnNames = "`" . implode("`,`", array_column($result, "COLUMN_NAME")) . "`";
+        $placeholders = implode(",", array_fill(0, count($inputFields), "?"));
+        $sql = "INSERT INTO `$tableName` ($columnNames) VALUES ($placeholders)";
+        $stmt = mysqli_prepare($mysqli, $sql);
+
+        // Bind the parameters dynamically
+        $paramTypes = str_repeat("s", count($inputFields));
+        $stmt->bind_param($paramTypes, ...$inputFields);
+        
+        // Execute the SQL statement
+        $stmt->execute();
+
+        // Close the statement
+        $stmt->close();
+        header("Refresh: 0");
     }
     ?>
     <nav class="navbar navbar-light navbar-expand-md py-3" style="border-bottom-color: rgb(14,15,16);box-shadow: 0px 1px 20px rgb(183,183,183);">
-        <div class="container"><a class="navbar-brand d-flex align-items-center" href="index.html" style="color: rgb(19,161,7);font-size: 36px;font-weight: bold;"><span style="color: rgb(19, 161, 7);">SAO Reservation System</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand d-flex align-items-center" style="color: rgb(19,161,7);font-size: 36px;font-weight: bold;"><span style="color: rgb(19, 161, 7);">SAO Reservation System</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-2">
                 <ul class="navbar-nav ms-auto nav-pills">
-                    <li class="nav-item"><a class="nav-link" href="form.html">Reservations</a></li>
-                    <li class="nav-item"><a class="nav-link" href="form.html">Organizations</a></li>
-                    <li class="nav-item"><a class="nav-link" href="status.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php">Reservations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="orgs.php">Organizations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.php">Services</a></li>
                 </ul><a href="AdminLogin.html" style="color: rgb(19,161,7);border-width: 1px;border-style: solid;border-radius: 3px;padding: 13px;width: 105px;text-align: center;"><i class="fas fa-sign-in-alt" style="margin-right: 7px;"></i>Admin</a>
             </div>
         </div>
@@ -92,32 +76,32 @@
                     <table id="table" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <td>Date</td>
-                                <td>Reason</td>
-                                <td>Working Area</td>
-                                <td>Meeting Room 1</td>
-                                <td>Meeting Room 2</td>
-                                <td>Open Space</td>
-                                <td>North Wing</td>
-                                <td>South Wing</td>
-                                <td>Zoom Account</td>
+                                <?php 
+                                require_once('../connection.php');
+                                $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'dates'";
+                                $result = mysql_query($sql, $con);
+                                while ($row = mysql_fetch_array($result)) {
+                                    echo "<td>" . $row['COLUMN_NAME'] . "</td>";
+                                }
+                                ?>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             $sql = "SELECT * FROM dates";
                             $results = mysql_query($sql, $con);
-                            while ($row = mysql_fetch_array($results)) {
+                            while ($row = mysql_fetch_assoc($results)) {
                                 echo "<tr>";
-                                echo "<td>" . $row['dates'] . "</td>";
-                                echo "<td>" . $row['reason'] . "</td>";
-                                echo "<td>" . $row['Working area'] . "</td>";
-                                echo "<td>" . $row['Meeting Room 1'] . "</td>";
-                                echo "<td>" . $row['Meeting Room 2'] . "</td>";
-                                echo "<td>" . $row['Open Space'] . "</td>";
-                                echo "<td>" . $row['North Wing'] . "</td>";
-                                echo "<td>" . $row['South Wing'] . "</td>";
-                                echo "<td>" . $row['Zoom Account'] . "</td>";
+                                $count = true;
+                                foreach ($row as $column) {
+                                    if ($count == true) {
+                                        $count = false;
+                                        echo "<td>" . date('Y, F j', strtotime($column)) . "</td>";
+                                        continue;
+                                    } else {
+                                        echo "<td>" . $column . "</td>";
+                                    }
+                                }
                                 echo "</tr>";
                             }
                             ?>
@@ -136,11 +120,11 @@
                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
                 <div class="accordion-body">
                     <div class="container-md shadow min-vh-50">
-                        <form action="dates.php" method="POST">
+                        <form class="needs-validation" novalidate action="dates.php" method="POST">
                             <div class="row mb-3">
                                 <div class="col-6">
                                     <div class="form-floating">
-                                        <input name="date" id="Date" class="form-control" type="date" required />
+                                        <input name="input-field[]" id="Date" class="form-control" type="date" required />
                                         <span id="DateSelected"></span>
                                         <label for="date">Date to exclude</label>
                                         <div class="invalid-feedback">Please select date</div>
@@ -148,13 +132,14 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="form-floating">
-                                        <select class="form-select form-select-sm" aria-label="reason" name="reason" id="reason" required>
+                                        <select class="form-select form-select-sm" aria-label="reason" name="input-field[]" id="reason" required>
                                             <option value="" disabled selected></option>
                                             <option value="Holiday">Holiday</option>
                                             <option value="No School">No School</option>
                                             <option value="Other">Other...</option>
                                         </select>
                                         <label for="reason">Reason</label>
+                                        <div class="invalid-feedback">Please select reason</div>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +150,7 @@
                                 $result = mysql_query($sql, $con);
                                 while ($row = mysql_fetch_array($result)) {
                                     echo "<div class=\"form-check form-check-inline\">";
-                                    echo "<input class=\"form-check-input\" type=\"checkbox\" name=\"" . $row['offer_name'] .  "\" value=\"UNAVAILABLE\" id=\"" . $row['offer_name'] . "\" checked>";
+                                    echo "<input class=\"form-check-input\" type=\"checkbox\" name=\"input-field[]\" value=\"UNAVAILABLE\" id=\"" . $row['offer_name'] . "\" checked>";
                                     echo "<label class=\"form-check-label\" for=\"" . $row['offer_name'] . "\">" . $row['offer_name'] . "</label>";
                                     echo "</div>";
                                 }
@@ -189,6 +174,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script> 
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-    <script src="../script.js"></script>
+    <script src="../assets/js/script.js"></script>
 </body>
 </html>

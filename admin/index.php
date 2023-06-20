@@ -22,12 +22,12 @@
             require_once("../connection.php");
         ?>
         <nav class="navbar navbar-light navbar-expand-md py-3" style="border-bottom-color: rgb(14,15,16);box-shadow: 0px 1px 20px rgb(183,183,183);">
-        <div class="container"><a class="navbar-brand d-flex align-items-center" href="index.html" style="color: rgb(19,161,7);font-size: 36px;font-weight: bold;"><span style="color: rgb(19, 161, 7);">SAO Reservation System</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand d-flex align-items-center" style="color: rgb(19,161,7);font-size: 36px;font-weight: bold;"><span style="color: rgb(19, 161, 7);">SAO Reservation System</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-2">
                 <ul class="navbar-nav ms-auto nav-pills">
-                <li class="nav-item"><a class="nav-link" href="status.html">Dates</a></li>
-                <li class="nav-item"><a class="nav-link" href="form.html">Organizations</a></li>
-                <li class="nav-item"><a class="nav-link" href="status.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="dates.php">Dates</a></li>
+                <li class="nav-item"><a class="nav-link" href="orgs.php">Organizations</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.php">Services</a></li>
                 </ul><a href="AdminLogin.html" style="color: rgb(19,161,7);border-width: 1px;border-style: solid;border-radius: 3px;padding: 13px;width: 105px;text-align: center;"><i class="fas fa-sign-in-alt" style="margin-right: 7px;"></i>Admin</a>
             </div>
         </div>
@@ -72,6 +72,6 @@
         <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script> 
         <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-        <script src="../script.js"></script>
+        <script src="../assets/js/script.js"></script>
     </body>
 </html>

@@ -18,3 +18,37 @@
 $(document).ready(function () {
   $('#table').DataTable();
 });
+
+function deleteService(itemId) {
+  if (confirm("Are you sure you want to delete this item?")) {
+      // Make an AJAX request to the PHP script for deleting the item
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "delete.php", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              // Item deleted successfully, refresh the page or perform any other action
+              
+              location.reload();
+          }
+      };
+      xhr.send("item_id=" + itemId);
+  }
+}
+
+function deleteOrg(org) {
+  if (confirm("Are you sure you want to delete this item?")) {
+      // Make an AJAX request to the PHP script for deleting the item
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "delete.php", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              // Item deleted successfully, refresh the page or perform any other action
+              
+              location.reload();
+          }
+      };
+      xhr.send("org=" + org);
+  }
+}

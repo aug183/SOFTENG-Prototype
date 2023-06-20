@@ -14,7 +14,6 @@
 <body>
     <?php 
         require_once("connection.php");
-        $last_nameErr = $first_nameErr = $emailErr = $contactErr = $organizationErr = $service = $dateErr = $startTimeErr = $endTimeErr = $purposeErr = "";
         if(isset($_POST['submit_button'])){
             $last_name = clean($_POST['lastName']);
             $first_name = clean($_POST['firstName']);
@@ -67,6 +66,8 @@
                     if (!mysql_query($sql, $con))
                     {
                         die('Error: ' . mysql_error());
+                    } else {
+                        header("Refresh:0");
                     }
                 }
             }
@@ -106,7 +107,7 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label" style="color: #08481a;">First Name</label>
-                                                    <input class="form-control <?php echo $first_nameErr?>" type="text" id="firstName" name="firstName" required>
+                                                    <input class="form-control" type="text" id="firstName" name="firstName" required>
                                                     <div class="invalid-feedback">This a required field.</div>
                                                 </div>
                                                 <div class="mb-3">

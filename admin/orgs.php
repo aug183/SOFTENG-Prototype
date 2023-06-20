@@ -22,14 +22,32 @@
 <body>
     <?php
     require_once("../connection.php");
+    if (isset($_POST['submit_button'])) {
+        $acronym = clean($_POST['acronym']);
+        $name = clean($_POST['name']);
+        $sql = "INSERT INTO organizations (`Acronym`, `Organization Name`) VALUES ('$acronym', '$name')";
+        if (!mysql_query($sql, $con)) {
+            die('Error: ' . mysql_error());
+        } else {
+            header("Refresh:0");
+        }
+    }
+
+    function clean($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
     ?>
     <nav class="navbar navbar-light navbar-expand-md py-3" style="border-bottom-color: rgb(14,15,16);box-shadow: 0px 1px 20px rgb(183,183,183);">
-        <div class="container"><a class="navbar-brand d-flex align-items-center" href="index.html" style="color: rgb(19,161,7);font-size: 36px;font-weight: bold;"><span style="color: rgb(19, 161, 7);">SAO Reservation System</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand d-flex align-items-center"style="color: rgb(19,161,7);font-size: 36px;font-weight: bold;"><span style="color: rgb(19, 161, 7);">SAO Reservation System</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-2">
                 <ul class="navbar-nav ms-auto nav-pills">
-                    <li class="nav-item"><a class="nav-link" href="form.html">Reservations</a></li>
-                    <li class="nav-item"><a class="nav-link" href="status.html">Dates</a></li>
-                    <li class="nav-item"><a class="nav-link" href="status.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php">Reservations</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dates.php">Dates</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.php">Services</a></li>
                 </ul><a href="AdminLogin.html" style="color: rgb(19,161,7);border-width: 1px;border-style: solid;border-radius: 3px;padding: 13px;width: 105px;text-align: center;"><i class="fas fa-sign-in-alt" style="margin-right: 7px;"></i>Admin</a>
             </div>
         </div>
@@ -50,11 +68,20 @@
                             <tr>
                                 <td>Acronym</td>
                                 <td>Name</td>
+                                <td>Action</td>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            
+                                $sql = "SELECT * FROM organizations";
+                                $result = mysql_query($sql, $con);
+                                while($row = mysql_fetch_array($result)){
+                                    echo "<tr>";
+                                    echo "<td>" . $row['Acronym'] . "</td>";
+                                    echo "<td>" . $row['Organization Name'] . "</td>";
+                                    echo "<td><button class=\"btn btn-danger\" onclick=\"deleteOrg('". $row['Organization Name']. "')\">Delete</button></td>";
+                                    echo "</tr>";
+                                }
                             ?>
                         </tbody>
                     </table>
@@ -71,15 +98,15 @@
                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
                 <div class="accordion-body">
                     <div class="container-md shadow min-vh-50 py-2">
-                        <form action="dates.php" method="POST">
-                            <div class="form-floating mb-3">
-                                <input name="acronym" id="acronym" class="form-control" type="text" placeholder="acronym" required />
-                                <label for="acronym">Acronym</label>
-                                <div class="invalid-feedback">Please input org acronym</div>
+                        <form class="needs-validation" novalidate action="orgs.php" method="POST">
+                            <div class="mb-3">
+                                <label for="acronym" class="form-label">Acronym</label>
+                                <input name="acronym" id="acronym" class="form-control" type="text" placeholder="DLSL &quot;ACRONYM&quot;" pattern="DLSL +[A-Z]{2,}" required />
+                                <div class="invalid-feedback">Please input valid org acronym</div>
                             </div>
-                            <div class="form-floating mb-3">
-                                <input name="name" id="name" class="form-control" type="text" placeholder="name" required />
-                                <label for="name">Org Name</label>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Org Name</label>
+                                <input name="name" id="name" class="form-control" type="text" placeholder="Organization Name" required />
                                 <div class="invalid-feedback">Please input org name</div>
                             </div>
                             <div class="row">
@@ -100,6 +127,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script> 
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-    <script src="../script.js"></script>
+    <script src="../assets/js/script.js"></script>
 </body>
 </html>
