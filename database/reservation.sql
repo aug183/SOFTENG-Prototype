@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2023 at 05:03 PM
+-- Generation Time: Jun 20, 2023 at 12:20 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 5.6.40
 
@@ -21,6 +21,49 @@ SET time_zone = "+00:00";
 --
 -- Database: `reservation`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `username` varchar(20) NOT NULL,
+  `password` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`username`, `password`) VALUES
+('admin', '$2y$10$PIy2D/wlAALzU5IyZflau..zRH2J0inbAe1d45VWJ7yZJWIGCU40.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dates`
+--
+
+CREATE TABLE `dates` (
+  `Dates` date NOT NULL,
+  `Reason` varchar(50) NOT NULL,
+  `Working area` varchar(20) NOT NULL DEFAULT 'AVAILABLE',
+  `Meeting Room 1` varchar(20) NOT NULL DEFAULT 'AVAILABLE',
+  `Meeting Room 2` varchar(20) NOT NULL DEFAULT 'AVAILABLE',
+  `Open Space` varchar(20) NOT NULL DEFAULT 'AVAILABLE',
+  `North Wing` varchar(20) NOT NULL DEFAULT 'AVAILABLE',
+  `South Wing` varchar(20) NOT NULL DEFAULT 'AVAILABLE',
+  `Zoom Account` varchar(20) DEFAULT 'AVAILABLE'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `dates`
+--
+
+INSERT INTO `dates` (`Dates`, `Reason`, `Working area`, `Meeting Room 1`, `Meeting Room 2`, `Open Space`, `North Wing`, `South Wing`, `Zoom Account`) VALUES
+('2023-06-20', 'Holiday', 'UNAVAILABLE', 'UNAVAILABLE', 'UNAVAILABLE', 'UNAVAILABLE', 'UNAVAILABLE', 'UNAVAILABLE', 'UNAVAILABLE');
 
 -- --------------------------------------------------------
 
@@ -129,15 +172,26 @@ CREATE TABLE `reservations` (
 --
 
 INSERT INTO `reservations` (`reservation_code`, `last_name`, `first_name`, `date_created`, `email`, `contact`, `organization`, `services`, `date_reserved`, `start_time`, `end_time`, `purpose`) VALUES
-(2, 'Nicol', 'Vincent', '2023-05-16 22:09:25', 'vincent_nino_nicol@dlsl.edu.ph', '09054172017', 'DLSL JPCS', 'Zoom Account', '2023-05-17', '09:58:00', '10:58:00', 'Practice po'),
-(3, 'Faz', 'Faith Christine', '2023-05-16 22:12:27', 'faith_christine_faz@dlsl.edu.ph', '09999999999', 'DLSL ANIMACO', 'North Wing', '2023-05-19', '13:00:00', '15:00:00', 'Magbabasa lang po ng manga at makikichismis.'),
 (4, 'Amurao', 'Sandra Mae', '2023-05-16 22:48:40', 'sandra_mae_amurao@dlsl.edu.ph', '09000000000', 'DLSL BIOS', 'Meeting Room 1', '2023-05-17', '12:00:00', '14:00:00', 'asd'),
-(5, 'Amurao', 'Sandra Mae', '2023-05-16 23:00:09', 'sandra_mae_amurao@dlsl.edu.ph', '09000000000', 'DLSL BIOS', 'Working Area', '2023-05-17', '11:00:00', '12:00:00', 'asd'),
-(6, 'Faz', 'Faith Christine', '2023-05-16 23:01:15', 'faith_christine_faz@dlsl.edu.ph', '09999999999', 'DLSL IGNIS', 'Working Area', '2023-05-17', '23:00:00', '12:00:00', 'asd');
+(7, 'Nicol', 'Vincent', '2023-05-17 10:40:51', 'vincent_nino_nicol@dlsl.edu.ph', '09000000000', 'DLSL ACES', 'Meeting Room 1', '2023-05-18', '22:40:00', '10:40:00', 'asd'),
+(9, 'Amurao', 'Sandra Mae', '2023-06-20 11:31:47', 'sandra_mae_amurao@dlsl.edu.ph', '09000000000', 'DLSL DEBSOC', 'South Wing', '2023-05-17', '12:00:00', '14:00:00', 'Practice'),
+(10, 'Nicol', 'Vincent', '2023-06-20 11:35:22', 'vincent_nino_nicol@dlsl.edu.ph', '09999999999', 'DLSL ANIMACO', 'Working Area', '2023-06-21', '08:00:00', '12:00:00', 'Practice');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `dates`
+--
+ALTER TABLE `dates`
+  ADD UNIQUE KEY `date` (`Dates`);
 
 --
 -- Indexes for table `offers`
@@ -167,13 +221,13 @@ ALTER TABLE `reservations`
 -- AUTO_INCREMENT for table `offers`
 --
 ALTER TABLE `offers`
-  MODIFY `index_offers` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `index_offers` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservation_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `reservation_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
