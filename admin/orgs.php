@@ -22,6 +22,7 @@
 <body>
     <?php
     require_once("../connection.php");
+    require_once("require.php");
     if (isset($_POST['submit_button'])) {
         $acronym = clean($_POST['acronym']);
         $name = clean($_POST['name']);
@@ -48,7 +49,7 @@
                     <li class="nav-item"><a class="nav-link" href="index.php">Reservations</a></li>
                     <li class="nav-item"><a class="nav-link" href="dates.php">Dates</a></li>
                     <li class="nav-item"><a class="nav-link" href="services.php">Services</a></li>
-                </ul><a href="AdminLogin.html" style="color: rgb(19,161,7);border-width: 1px;border-style: solid;border-radius: 3px;padding: 13px;width: 105px;text-align: center;"><i class="fas fa-sign-in-alt" style="margin-right: 7px;"></i>Admin</a>
+                </ul><a href="logout.php" style="color: rgb(19,161,7);border-width: 1px;border-style: solid;border-radius: 3px;padding: 13px;width: 105px;text-align: center;"><i class="fas fa-sign-in-alt" style="margin-right: 7px;"></i>Logout</a>
             </div>
         </div>
     </nav>
