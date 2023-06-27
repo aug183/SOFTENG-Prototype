@@ -6,16 +6,16 @@
 
     // Delete the item from the database
     $sql = "DELETE FROM offers WHERE offer_name = '$itemId'";
-    if (!mysql_query($sql, $con))
+    if (!mysqli_query($con, $sql))
     {
-        die('Error: ' . mysql_error());
+        die('Error: ' . $con -> error);
     }
 
     // Delete item in the dates table
     $sql = "ALTER TABLE dates DROP COLUMN `$itemId`";
-    if (!mysql_query($sql, $con))
+    if (!mysqli_query($con, $sql))
     {
-        die('Error: ' . mysql_error());
+        die('Error: ' . $con -> error);
     }
 }
 
@@ -25,16 +25,16 @@ if (isset($_POST['org'])) {
 
     // Delete the item from the database
     $sql = "DELETE FROM organizations WHERE `Organization Name` = '$org'";
-    if (!mysql_query($sql, $con))
+    if (!mysqli_query($con, $sql))
     {
-        die('Error: ' . mysql_error());
+        die('Error: ' . $con -> error);
     }
 
     // Delete item in the dates table
     $sql = "ALTER TABLE dates DROP COLUMN `$org`";
-    if (!mysql_query($sql, $con))
+    if (!mysqli_query($con, $sql))
     {
-        die('Error: ' . mysql_error());
+        die('Error: ' . $con -> error);
     }
 }
 

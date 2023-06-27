@@ -27,9 +27,9 @@
         $service = clean($_POST['service']);
         $sql1 = "INSERT INTO offers (offer_name) VALUES ('$service')";
         $sql2 = "ALTER TABLE `dates` ADD `$service` VARCHAR(255) NOT NULL DEFAULT 'AVAILABLE' AFTER `Zoom Account`;";
-        if (!mysql_query($sql1, $con) || !mysql_query($sql2, $con))
+        if (!mysqli_query($con, $sql1) || !mysqli_query($con, $sql2))
         {
-            die('Error: ' . mysql_error());
+            die('Error: ' . $con -> error);
         } else {
             header("Refresh:0");
         }
@@ -74,8 +74,8 @@
                         <tbody>
                             <?php 
                                 $sql = "SELECT offer_name FROM offers";
-                                $result = mysql_query($sql);
-                                while($row = mysql_fetch_array($result)){
+                                $result = mysqli_query($con, $sql);
+                                while($row = $result -> fetch_array(MYSQLI_ASSOC)){
                                     echo "<tr>";
                                     echo "<td>" . $row['offer_name'] . "</td>";
                                     echo "<td><button class=\"btn btn-danger\" onclick=\"deleteService('". $row['offer_name']. "')\">Delete</button></td>";

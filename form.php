@@ -37,9 +37,9 @@
             {
                 $sql = "SELECT * FROM reservations WHERE 
                 (start_time BETWEEN '$start_time' AND '$end_time') OR (end_time BETWEEN '$start_time' AND '$end_time')";
-                $result = mysql_query($sql, $con);
+                $result = mysqli_query($con, $sql);
 
-                while($row = mysql_fetch_array($result))
+                while($row = $result -> fetch_array(MYSQLI_ASSOC))
                 {
                     $existingDate = $row['date_reserved'];
                     $existingServices = $row['services'];
@@ -63,9 +63,9 @@
                     VALUES
                     ('$last_name', '$first_name', '$email', '$contact', '$organization', '$service', '$date', '$start_time', '$end_time', '$purpose')";
                     
-                    if (!mysql_query($sql, $con))
+                    if (!mysqli_query($con, $sql ))
                     {
-                        die('Error: ' . mysql_error());
+                        die('Error: ' . $con->error);
                     } else {
                         header("Refresh:0");
                     }
@@ -137,8 +137,8 @@
                                                                     <select class="form-select" aria-label="Organization" name="Organization" id="organization" style="padding: 11px 12px;" required>
                                                                         <option value="" disabled selected>Organization</option>
                                                                         <?php 
-                                                                            $result = mysql_query("SELECT * FROM organizations");
-                                                                            while($row = mysql_fetch_array($result))
+                                                                            $result = mysqli_query($con, "SELECT * FROM organizations");
+                                                                            while($row = $result -> fetch_array(MYSQLI_ASSOC))
                                                                             {
                                                                                 echo "<option value=\"" . $row['Acronym'] . "\">" . $row['Organization Name'] . "</option>";
                                                                             }
@@ -150,8 +150,8 @@
                                                                 <select class="form-select form-select-sm" aria-label="To Reserve" name="reserveItem" id="reserveItem" style="padding: 11px 12px;" required>
                                                                     <option value="" disabled selected>Service</option>
                                                                     <?php 
-                                                                        $result = mysql_query("SELECT offer_name FROM offers");
-                                                                        while($row = mysql_fetch_array($result))
+                                                                        $result = mysqli_query($con, "SELECT offer_name FROM offers");
+                                                                        while($row = $result -> fetch_array(MYSQLI_ASSOC))
                                                                         {
                                                                             echo "<option value=\"" . $row['offer_name'] . "\">" . $row['offer_name'] . "</option>";
                                                                         }

@@ -27,8 +27,8 @@
         $acronym = clean($_POST['acronym']);
         $name = clean($_POST['name']);
         $sql = "INSERT INTO organizations (`Acronym`, `Organization Name`) VALUES ('$acronym', '$name')";
-        if (!mysql_query($sql, $con)) {
-            die('Error: ' . mysql_error());
+        if (!mysqli_query($con, $sql)) {
+            die('Error: ' . $con -> error);
         } else {
             header("Refresh:0");
         }
@@ -75,8 +75,8 @@
                         <tbody>
                             <?php
                                 $sql = "SELECT * FROM organizations";
-                                $result = mysql_query($sql, $con);
-                                while($row = mysql_fetch_array($result)){
+                                $result = mysqli_query($con, $sql);
+                                while($row = $result -> fetch_array(MYSQLI_ASSOC)){
                                     echo "<tr>";
                                     echo "<td>" . $row['Acronym'] . "</td>";
                                     echo "<td>" . $row['Organization Name'] . "</td>";

@@ -79,8 +79,8 @@
                                 <?php 
                                 require_once('../connection.php');
                                 $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'dates'";
-                                $result = mysql_query($sql, $con);
-                                while ($row = mysql_fetch_array($result)) {
+                                $result = mysqli_query($con,$sql);
+                                while ($row = $result -> fetch_array(MYSQLI_ASSOC)) {
                                     echo "<td>" . $row['COLUMN_NAME'] . "</td>";
                                 }
                                 ?>
@@ -89,8 +89,8 @@
                         <tbody>
                             <?php
                             $sql = "SELECT * FROM dates";
-                            $results = mysql_query($sql, $con);
-                            while ($row = mysql_fetch_assoc($results)) {
+                            $results = mysqli_query($con, $sql);
+                            while ($row = $results->fetch_array(MYSQLI_ASSOC)) {
                                 echo "<tr>";
                                 $count = true;
                                 foreach ($row as $column) {
@@ -147,8 +147,8 @@
                             <div class="mb-3 text-center">
                                 <?php
                                 $sql = "SELECT * FROM offers";
-                                $result = mysql_query($sql, $con);
-                                while ($row = mysql_fetch_array($result)) {
+                                $result = mysqli_query($con, $sql);
+                                while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
                                     echo "<div class=\"form-check form-check-inline\">";
                                     echo "<input class=\"form-check-input\" type=\"checkbox\" name=\"input-field[]\" value=\"UNAVAILABLE\" id=\"" . $row['offer_name'] . "\" checked>";
                                     echo "<label class=\"form-check-label\" for=\"" . $row['offer_name'] . "\">" . $row['offer_name'] . "</label>";

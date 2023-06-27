@@ -50,8 +50,8 @@
                 <tbody>
                     <?php 
                         $sql = "SELECT * FROM reservations";
-                        $results = mysql_query($sql, $con);
-                        while($row = mysql_fetch_array($results))
+                        $results = mysqli_query($con, $sql);
+                        while($row = $results -> fetch_array(MYSQLI_ASSOC))
                         {
                             echo "<tr>";
                             echo "<td>" . $row['last_name'] . ", " . $row['first_name'] . "</td>";
