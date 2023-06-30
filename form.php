@@ -15,6 +15,7 @@
     <?php 
         require_once("connection.php");
         if(isset($_POST['submit_button'])){
+            $password = generateRandomString();
             $last_name = clean($_POST['lastName']);
             $first_name = clean($_POST['firstName']);
             $email = clean($_POST['email']);
@@ -59,9 +60,9 @@
                     die();
                 }
                 else{
-                    $sql = "INSERT INTO reservations (last_name, first_name, email, contact, organization, services, date_reserved, start_time, end_time, purpose)
+                    $sql = "INSERT INTO reservations (`password`, last_name, first_name, email, contact, organization, services, date_reserved, start_time, end_time, purpose)
                     VALUES
-                    ('$last_name', '$first_name', '$email', '$contact', '$organization', '$service', '$date', '$start_time', '$end_time', '$purpose')";
+                    ('$password', '$last_name', '$first_name', '$email', '$contact', '$organization', '$service', '$date', '$start_time', '$end_time', '$purpose')";
                     
                     if (!mysqli_query($con, $sql ))
                     {
@@ -77,6 +78,16 @@
             $data = stripslashes($data);
             $data = htmlspecialchars($data);
             return $data;
+        }
+
+        function generateRandomString() {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < 16; $i++) {
+                $randomString .= $characters[random_int(0, $charactersLength - 1)];
+            }
+            return $randomString;
         }
     ?>
     <nav class="navbar navbar-light navbar-expand-md fixed-top d-flex" style="box-shadow: 0px 0px 6px 0px rgb(187,187,187);background: #ffffff;padding: 26px 0px;">
@@ -186,7 +197,7 @@
                                                 <div class="mb-3">
                                                     <div class="mb-4"></div>
                                                     <label class="form-label" style="color: rgb(8,72,26);" for="purpose">Purpose of Reservation</label>
-                                                    <textarea class="form-control" id="purpose" name="purpose" rows="6" required></textarea>
+                                                    <textarea class="form-control" id="purpose" name="purpose" rows="6" maxlength="100" required></textarea>
                                                     <div class="invalid-feedback">Required</div>
                                                 </div>
                                                 <div class="mb-5">

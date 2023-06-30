@@ -38,4 +38,18 @@ if (isset($_POST['org'])) {
     }
 }
 
-?>
+if (isset($_POST['id'])) {
+    // Retrieve the item ID from the AJAX request
+    $id = $_POST['id'];
+    $sql = "INSERT INTO `cancellations` SELECT * FROM `reservations` WHERE reservation_code = '$id'";
+    require_once("../connection.php");
+
+    if (!mysqli_query($con, $sql)) {
+        die('Error: ' . $con -> error);
+    } 
+
+    $sql = "DELETE FROM `reservations` WHERE reservation_code = '$id'";
+    if (!mysqli_query($con, $sql)) {
+        die('Error: ' . $con -> error);
+    }    
+}

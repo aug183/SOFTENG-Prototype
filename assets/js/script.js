@@ -52,3 +52,20 @@ function deleteOrg(org) {
       xhr.send("org=" + org);
   }
 }
+
+function cancellationIndex(id) {
+  if (confirm("Are you sure you want to cancel this reservation?")) {
+    // Make an AJAX request to the PHP script for deleting the item
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "delete.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            // Item deleted successfully, refresh the page or perform any other action
+            
+            location.reload();
+        }
+    };
+    xhr.send("id=" + id);
+}
+}
