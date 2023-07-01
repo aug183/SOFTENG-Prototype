@@ -65,12 +65,9 @@
                                                 echo "<tr>";
                                                 echo "<td>" . $row['last_name'] . ", " . $row['first_name'] . "</td>";
                                                 echo "<td>" . $row['email'] . "</td>";
-                                                //echo "<td>" . $row['contact'] . "</td>";
-                                                //echo "<td>" . $row['organization'] . "</td>";
                                                 echo "<td>" . $row['services'] . "</td>";
                                                 echo "<td>" . date('Y, F j', strtotime($row['date_reserved'])) . " | " . date('h:i A', strtotime($row['start_time'])) . "</td>";
                                                 echo "<td>" . date('Y, F j', strtotime($row['date_reserved'])) . " | " . date('h:i A', strtotime($row['end_time'])) . "</td>";
-                                                //echo "<td>" . $row['purpose'] . "</td>";
                                                 echo "<td><button type=\"button\" class=\"btn btn-danger\" style=\"margin-right: 10px;\" onclick=\"cancellationIndex('". $row['reservation_code'] . "')\">Cancel</button><button type=\"button\" class=\"btn btn-info\" data-bs-toggle=\"modal\" data-bs-target=\"#" . $row['reservation_code'] . "\">More Info</button></td>";
                                                 echo "</tr>";
                                                 //Modal

@@ -56,10 +56,16 @@
                     echo '<script type="text/javascript">';
                     echo ' alert("Your time overlap with an existing reservation.")';
                     echo '</script>';
-                    header("Refresh:0");
-                    die();
                 }
-                else{
+
+                $sql = "SELECT * FROM dates WHERE Dates = '$date' AND `$service` = 'UNAVAILABLE'";
+                $result = mysqli_query($con, $sql);
+                if ($result -> num_rows > 0) {
+                    echo '<script type="text/javascript">';
+                    echo ' alert("Your selected date is unavailable.")';
+                    echo '</script>';
+                }
+                else {
                     $sql = "INSERT INTO reservations (`password`, last_name, first_name, email, contact, organization, services, date_reserved, start_time, end_time, purpose)
                     VALUES
                     ('$password', '$last_name', '$first_name', '$email', '$contact', '$organization', '$service', '$date', '$start_time', '$end_time', '$purpose')";
@@ -71,6 +77,7 @@
                         header("Refresh:0");
                     }
                 }
+                
             }
         }
         function clean($data) {
@@ -81,7 +88,7 @@
         }
 
         function generateRandomString() {
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()';
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $charactersLength = strlen($characters);
             $randomString = '';
             for ($i = 0; $i < 16; $i++) {
