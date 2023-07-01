@@ -34,33 +34,37 @@
     $row = mysqli_fetch_assoc($result);
 
     if (isset($_POST['cancel_button'])) {
-        $reservation_code = $row['reservation_code'];
-        $password = $row['password'];
-        $last_name = $row['last_name'];
-        $first_name = $row['first_name'];
-        $date_created = $row['date_created'];
-        $email = $row['email'];
-        $contact = $row['contact'];
-        $organization = $row['organization'];
-        $services = $row['services'];
-        $date_reserved = $row['date_reserved'];
-        $start_time = $row['start_time'];
-        $end_time = $row['end_time'];
-        $purpose = $row['purpose'];
-        $reason = clean($_POST['cancellation_reason']);
-        $sql = "INSERT INTO `cancellations` (reservation_code, `password`, last_name, first_name, date_created, email, contact, organization, services, date_reserved, start_time, end_time, purpose, reason) 
-        VALUES ('$reservation_code', '$password', '$last_name', '$first_name', '$date_created', '$email', '$contact', '$organization', '$services', '$date_reserved', '$start_time', '$end_time', '$purpose', '$reason')";
-        if (!mysqli_query($con, $sql)) {
-            die('Error: ' . $con -> error);
-        } 
-        $sql = "DELETE FROM `reservations` WHERE reservation_code = '$id'";
-        if (!mysqli_query($con, $sql)) {
-            die('Error: ' . $con -> error);
+        if (empty($_POST['cancellation_reason'])) {
+            $error = "Please enter a reason for cancellation.";
+        } else {
+            $reservation_code = $row['reservation_code'];
+            $password = $row['password'];
+            $last_name = $row['last_name'];
+            $first_name = $row['first_name'];
+            $date_created = $row['date_created'];
+            $email = $row['email'];
+            $contact = $row['contact'];
+            $organization = $row['organization'];
+            $services = $row['services'];
+            $date_reserved = $row['date_reserved'];
+            $start_time = $row['start_time'];
+            $end_time = $row['end_time'];
+            $purpose = $row['purpose'];
+            $reason = clean($_POST['cancellation_reason']);
+            $sql = "INSERT INTO `cancellations` (reservation_code, `password`, last_name, first_name, date_created, email, contact, organization, services, date_reserved, start_time, end_time, purpose, reason) 
+            VALUES ('$reservation_code', '$password', '$last_name', '$first_name', '$date_created', '$email', '$contact', '$organization', '$services', '$date_reserved', '$start_time', '$end_time', '$purpose', '$reason')";
+            if (!mysqli_query($con, $sql)) {
+                die('Error: ' . $con -> error);
+            } 
+            $sql = "DELETE FROM `reservations` WHERE reservation_code = '$id'";
+            if (!mysqli_query($con, $sql)) {
+                die('Error: ' . $con -> error);
+            }
+            $_SESSION = array();
+            session_destroy();
+            header("location: reftrack.php");
+            exit;
         }
-        $_SESSION = array();
-        session_destroy();
-        header("location: reftrack.php");
-        exit;
     }
 
     function clean($data) {
@@ -92,7 +96,7 @@
                                             <div class="card mb-5">
                                                 <div class="card-body p-sm-5" style="box-shadow: 0px 0px 13px rgb(176,176,176);">
                                                     <h2 class="text-center mb-4" style="color: rgb(11,145,8);font-size: 37px;">Reservation Status</h2>
-                                                    <form method="POST" action="status.php">
+                                                    <form method="POST" action="status.php" novalidate>
                                                         <div class="mb-3">
                                                             <p><strong>Date Requested: </strong><?php echo date('F j, Y', strtotime($row['date_created']));?></p>
                                                             <p><strong>Reference Number:</strong> <?php echo $row['reservation_code']?></p>
@@ -127,6 +131,11 @@
                                                         
                                                         <div class="mb-4"></div>
                                                         <div class="mb-4"></div>
+                                                        <?php
+                                                            if(!empty($error)){
+                                                                echo '<div class="alert alert-danger">' . $error . '</div>';
+                                                            }
+                                                        ?>
                                                         <div class="mb-5"></div>
                                                         <button type="submit" class="btn btn-primary" style="background: rgb(27,177,24);" name="back_button">Return</button>
                                                         <button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancel Reservation</button>
